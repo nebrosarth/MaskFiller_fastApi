@@ -3,3 +3,4 @@ transformers~=4.35.2
 pydantic~=2.5.2
 pytest
 httpx
+tensorflow
