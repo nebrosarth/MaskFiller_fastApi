@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from transformers import pipeline
 from pydantic import BaseModel
+from transformers.pipelines import PipelineException
 
 
 class Item(BaseModel):
@@ -18,4 +19,7 @@ async def root():
 
 @app.post("/predict")
 async def predict(item: Item):
-    return unmasker.predict(item.text)
+    try:
+        return unmasker.predict(item.text)
+    except PipelineException as e:
+        raise HTTPException(status_code=422, detail=str(e))
